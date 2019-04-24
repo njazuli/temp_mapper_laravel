@@ -13,3 +13,5 @@
 
 Route::get('csv/upload', 'Web\CsvController@upload')->name('csv.upload.page');
 Route::post('csv/upload', 'Web\CsvController@handleUpload')->name('csv.upload.process');
+
+Route::get('category/{thematic}', 'Web\CategoryController@categoryByThematic')->name('category.thematic.get');

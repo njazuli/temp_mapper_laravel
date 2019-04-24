@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Data;
+use App\Models\Thematic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,17 +15,29 @@ class DataController extends Controller
     {
         $page = $request->input('page', '1');
         $limit = $request->input('limit', 10);
+        $thematic = $request->input('thematic');
         $category = $request->input('category');
         $year = $request->input('year');
         $month = $request->input('month');
         $day = $request->input('day');
 
         if ($category) {
-            $categoryExist = array_key_exists($category, Data::CATEGORIES);
+            $categoryExist = Category::where('value', $request->input('category'))->first();
 
             if (!$categoryExist) {
                 return response()->json([
-                    'error' => 'Category not exist. Available category: ' . implode(', ', array_keys(Data::CATEGORIES)),
+                    'error' => 'Category not exist. Available category: ' . implode(', ', Category::pluck('value')->toArray()),
+                    'status' => 404
+                ], 404);
+            }
+        }
+
+        if ($thematic) {
+            $thematicExist = Thematic::where('value', $request->input('thematic'))->first();
+
+            if (!$thematicExist) {
+                return response()->json([
+                    'error' => 'Category not exist. Available thematic: ' . implode(', ', Thematic::pluck('value')->toArray()),
                     'status' => 404
                 ], 404);
             }
@@ -42,10 +56,18 @@ class DataController extends Controller
             }
         }
 
-        $query = Data::query();
+        $query = Data::with(['category', 'thematic']);
 
         if ($category) {
-            $query = $query->where('category', $category);
+            $query = $query->whereHas('category', function ($query) use ($category) {
+                $query->where('value', $category);
+            });
+        }
+
+        if ($thematic) {
+            $query = $query->whereHas('thematic', function ($query) use ($thematic) {
+                $query->where('value', $thematic);
+            });
         }
 
         if ($year) {
@@ -65,16 +87,27 @@ class DataController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function categoryAndYear($category, $year, Request $request)
+    public function categoryAndYear($thematic, $category, $year, Request $request)
     {
         $page = $request->input('page', '1');
         $limit = $request->input('limit', 10);
+        $month = $request->input('month');
+        $day = $request->input('day');
 
-        $categoryExist = array_key_exists($category, Data::CATEGORIES);
+        $thematicExist = Thematic::where('value',$thematic)->first();
+
+        if(!$thematicExist){
+            return response()->json([
+                'error' => 'Thematic not exist. Available thematics: ' . implode(', ', Thematic::pluck('value')->toArray()),
+                'status' => 404
+            ], 404);
+        }
+
+        $categoryExist = Category::where('value',$category)->first();
 
         if (!$categoryExist) {
             return response()->json([
-                'error' => 'Category not exist. Available category: ' . implode(', ', array_keys(Data::CATEGORIES)),
+                'error' => 'Category not exist. Available category: ' . implode(', ', Category::pluck('value')->toArray()),
                 'status' => 404
             ], 404);
         }
@@ -90,8 +123,34 @@ class DataController extends Controller
             ], 404);
         }
 
+        $query = Data::with(['category', 'thematic']);
 
-       $data = Data::paginate($limit, ['*'], 'page', $page);
+
+        if ($category) {
+            $query = $query->whereHas('category', function ($query) use ($category) {
+                $query->where('value', $category);
+            });
+        }
+
+        if ($thematic) {
+            $query = $query->whereHas('thematic', function ($query) use ($thematic) {
+                $query->where('value', $thematic);
+            });
+        }
+
+        if ($year) {
+            $query = $query->whereYear('date', $year);
+        }
+
+        if ($month) {
+            $query = $query->whereMonth('date', $month);
+        }
+
+        if ($day) {
+            $query = $query->whereDay('date', $day);
+        }
+
+       $data = $query->paginate($limit, ['*'], 'page', $page);
 
        return response()->json(['data' => $data]);
     }

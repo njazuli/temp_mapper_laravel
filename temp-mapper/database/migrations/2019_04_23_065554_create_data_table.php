@@ -15,8 +15,9 @@ class CreateDataTable extends Migration
     {
         Schema::create('data', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('category', 100);
-            $table->timestamp('date');
+            $table->integer('thematic_id');
+            $table->integer('category_id');
+            $table->dateTime('date');
             $table->decimal('lat', 12, 9);
             $table->decimal('lon', 12, 9);
             $table->decimal('temp', 8, 5);

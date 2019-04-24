@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddIndexesToDataTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class AddIndexesToDataTable extends Migration
      */
     public function up()
     {
-        Schema::table('data', function (Blueprint $table) {
-            $table->index(['category_id', 'thematic_id', 'date']);
-
+        Schema::create('categories', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->integer('thematic_id');
+            $table->string('value', 255);
+            $table->string('name', 255);
+            $table->timestamps();
         });
     }
 
@@ -26,8 +29,6 @@ class AddIndexesToDataTable extends Migration
      */
     public function down()
     {
-        Schema::table('data', function (Blueprint $table) {
-            $table->dropIndex(['category_id', 'thematic_id', 'date']);
-        });
+        Schema::dropIfExists('categories');
     }
 }

@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/data', 'Api\DataController@index')->name('data.index');
-Route::get('/data/{category}/{year}', 'Api\DataController@categoryAndYear')->name('data.category_and_year');
+Route::get('/data/{thematic}/{category}/{year}', 'Api\DataController@categoryAndYear')->name('data.category_and_year');
