@@ -69,3 +69,25 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## HOW TO INSTALL
+1. install php and composer in your pc environment
+ follow the instruction from this link 
+ https://www.jeffgeerling.com/blog/2018/installing-php-7-and-composer-on-windows-10
+2. clone project for given git into your selected folder
+3. (Must do step 1 first if no php and composer installed yet) Open cmd/terminal, go to folder of the project run 'composer install'
+
+4. Type, 'cp .env.example .env'
+5. Run, 'php artisan migrate'
+6. Run, 'php artisan db:seed'
+7. Run, 'php artisan key:generate'
+8. Install xampp to run mysql on local
+9. To display/serve , run 'php artisan serve' -> link will be given there
+10. go to browser, go to the link http://127.0.0.1:8000/csv/upload <-- index page for now
+11. for api, go to http://127.0.0.1:8000/api/data/{thematic}/{category}/{year}?month=&day=
+
+12. for admin site (only for development)
+composer require brackets/craftable
+composer require --dev brackets/admin-generator
+

@@ -9,6 +9,8 @@ use Box\Spout\Common\Type;
 use Box\Spout\Reader\ReaderFactory;
 use Illuminate\Http\Request;
 
+ini_set('max_execution_time', 1800); //300 seconds = 5 minutes
+
 class CsvController extends Controller
 {
     public function upload()
