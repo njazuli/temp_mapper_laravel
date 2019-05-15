@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Data;
-use App\Models\Thematic;
+use App\Models\Field;
 use Box\Spout\Common\Type;
 use Box\Spout\Reader\ReaderFactory;
 use Illuminate\Http\Request;
@@ -15,9 +15,9 @@ class CsvController extends Controller
 {
     public function upload()
     {
-        $thematics = Thematic::select(['id', 'name'])->get();
+        $fields = Field::select(['id', 'name'])->get();
 
-        return view('csv.index', compact('thematics'));
+        return view('csv.index', compact('fields'));
     }
 
     public function handleUpload(Request $request)
@@ -33,7 +33,7 @@ class CsvController extends Controller
                 $year = $request->input('year');
 
                 $input = [
-                    'thematic_id' => $request->input('thematic_id'),
+                    'field_id' => $request->input('field_id'),
                     'category_id' => $request->input('category_id'),
                     'date' => $year . '-' . sprintf('%02d', $data[2]) . '-' . sprintf('%02d', $data[3]),
                     'lat' => $data[1],
@@ -46,7 +46,7 @@ class CsvController extends Controller
                 //
                 // dd($query->toSql(), $query->getBindings());
 
-                $dataExist = Data::whereYear('date', $input['date'])->where('thematic_id', $input['thematic_id'])
+                $dataExist = Data::whereYear('date', $input['date'])->where('field_id', $input['field_id'])
                     ->where('category_id', $input['category_id'])->where('lat', sprintf("%0.9f", $input['lat']))
                     ->where('lon', sprintf("%0.9f", $input['lon']))->where('temp', $input['temp'])->first();
 

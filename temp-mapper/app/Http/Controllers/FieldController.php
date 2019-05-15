@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\Field;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class FieldController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
-        return view('admin.index', compact('category'));
+        //
+        $field = Field::all();
+        return view('admin.field.index', compact('field'));
     }
 
     /**
@@ -48,8 +49,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
-        return view('admin.show', compact('category'));
+        $field = Field::findOrFail($id);
+        return view('admin.field.show', compact('field'));
     }
 
     /**
@@ -60,8 +61,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findOrFail($id);
-        return view('admin.edit', compact('category'));
+        $field = Field::findOrFail($id);
+        return view('admin.field.edit', compact('field'));
     }
 
     /**
@@ -73,16 +74,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
         $validatedData = $request->validate([
             'Field_id' => 'required',
             'value' => 'required',
             'name' => 'required',
         ]);
 
-        Category::whereId($id)->update($validatedData);
+        Field::whereId($id)->update($validatedData);
 
-        return redirect(route('category.index'))->with('success', 'Book is successfully updated');
+        return redirect(route('field.index'))->with('success', 'Book is successfully updated');
     }
 
     /**

@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Data extends Model
 {
 
-    protected $fillable = ['thematic_id','category_id', 'date', 'lat', 'lon', 'temp'];
+    protected $fillable = ['field_id','category_id', 'date', 'lat', 'lon', 'temp'];
 
     public function category()
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
 
-    public function thematic()
+    public function Field()
     {
-        return $this->hasOne(Thematic::class, 'id', 'thematic_id');
+        return $this->hasOne(Field::class, 'id', 'Field_id');
     }
 }

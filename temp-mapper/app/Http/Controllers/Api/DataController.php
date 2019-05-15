@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Data;
-use App\Models\Thematic;
+use App\Models\Field;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +15,7 @@ class DataController extends Controller
     {
         $page = $request->input('page', '1');
         $limit = $request->input('limit', 10);
-        $thematic = $request->input('thematic');
+        $Field = $request->input('Field');
         $category = $request->input('category');
         $year = $request->input('year');
         $month = $request->input('month');
@@ -32,12 +32,12 @@ class DataController extends Controller
             }
         }
 
-        if ($thematic) {
-            $thematicExist = Thematic::where('value', $request->input('thematic'))->first();
+        if ($Field) {
+            $FieldExist = Field::where('value', $request->input('Field'))->first();
 
-            if (!$thematicExist) {
+            if (!$FieldExist) {
                 return response()->json([
-                    'error' => 'Category not exist. Available thematic: ' . implode(', ', Thematic::pluck('value')->toArray()),
+                    'error' => 'Category not exist. Available Field: ' . implode(', ', Field::pluck('value')->toArray()),
                     'status' => 404
                 ], 404);
             }
@@ -56,7 +56,7 @@ class DataController extends Controller
             }
         }
 
-        $query = Data::with(['category', 'thematic']);
+        $query = Data::with(['category', 'Field']);
 
         if ($category) {
             $query = $query->whereHas('category', function ($query) use ($category) {
@@ -64,9 +64,9 @@ class DataController extends Controller
             });
         }
 
-        if ($thematic) {
-            $query = $query->whereHas('thematic', function ($query) use ($thematic) {
-                $query->where('value', $thematic);
+        if ($Field) {
+            $query = $query->whereHas('Field', function ($query) use ($Field) {
+                $query->where('value', $Field);
             });
         }
 
@@ -87,18 +87,18 @@ class DataController extends Controller
         return response()->json(['data' => $data]);
     }
 
-    public function categoryAndYear($thematic, $category, $year, Request $request)
+    public function categoryAndYear($Field, $category, $year, Request $request)
     {
         $page = $request->input('page', '1');
         $limit = $request->input('limit', 10);
         $month = $request->input('month');
         $day = $request->input('day');
 
-        $thematicExist = Thematic::where('value',$thematic)->first();
+        $FieldExist = Field::where('value',$Field)->first();
 
-        if(!$thematicExist){
+        if(!$FieldExist){
             return response()->json([
-                'error' => 'Thematic not exist. Available thematics: ' . implode(', ', Thematic::pluck('value')->toArray()),
+                'error' => 'Field not exist. Available Fields: ' . implode(', ', Field::pluck('value')->toArray()),
                 'status' => 404
             ], 404);
         }
@@ -123,7 +123,7 @@ class DataController extends Controller
             ], 404);
         }
 
-        $query = Data::with(['category', 'thematic']);
+        $query = Data::with(['category', 'Field']);
 
 
         if ($category) {
@@ -132,9 +132,9 @@ class DataController extends Controller
             });
         }
 
-        if ($thematic) {
-            $query = $query->whereHas('thematic', function ($query) use ($thematic) {
-                $query->where('value', $thematic);
+        if ($Field) {
+            $query = $query->whereHas('Field', function ($query) use ($Field) {
+                $query->where('value', $Field);
             });
         }
 

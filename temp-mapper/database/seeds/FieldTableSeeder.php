@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Thematic;
+use App\Models\Field;
 
-class ThematicTableSeeder extends Seeder
+class FieldTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,7 +12,7 @@ class ThematicTableSeeder extends Seeder
      */
     public function run()
     {
-        $thematics = [
+        $Fields = [
             [
                 'value' => 'climate_change',
                 'name' => 'Climate Change'
@@ -31,11 +31,11 @@ class ThematicTableSeeder extends Seeder
             ]
         ];
 
-        foreach ($thematics as $data) {
-            $dataExist = Thematic::where('value', $data['value'])->first();
+        foreach ($Fields as $data) {
+            $dataExist = Field::where('value', $data['value'])->first();
 
             if (!$dataExist) {
-                Thematic::create($data);
+                Field::create($data);
             }
         }
     }

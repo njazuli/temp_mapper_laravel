@@ -1,4 +1,4 @@
-@extends('admin.layout')
+@extends('admin.field.layout')
 
 @section('content')
     <style>
@@ -20,22 +20,22 @@
                     </ul>
                 </div><br />
             @endif
-            <form method="post" action="{{ route('category.update', $category->id) }}">
+            <form method="post" action="{{ route('field.update', $field->id) }}">
                 <div class="form-group">
                     @csrf
                     @method('PATCH')
                     <label for="name">ID:</label>
-                    <input type="text" class="form-control" name="Field_id" value="{{$category->Field_id}}"/>
-                </div>
-                <div class="form-group">
-                    <label for="price">Value:</label>
-                    <input type="text" class="form-control" name="value" value="{{$category->value}}"/>
+                    <input type="text" class="form-control" name="id" value="{{$field->id}}"/>
                 </div>
                 <div class="form-group">
                     <label for="quantity">Name:</label>
-                    <input type="text" class="form-control" name="name" value="{{$category->name}}"/>
+                    <input type="text" class="form-control" name="name" value="{{$field->name}}"/>
                 </div>
-                <button type="submit" class="btn btn-primary">Update Field</button>
+                <div class="form-group">
+                    <label for="price">Value:</label>
+                    <input type="text" class="form-control" name="value" value="{{$field->value}}"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Update Book</button>
             </form>
         </div>
     </div>

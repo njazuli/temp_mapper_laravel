@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Thematic extends Migration
+class Fields extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class Thematic extends Migration
      */
     public function up()
     {
-        Schema::create('thematic' , function (Blueprint $thematic){
-            $thematic->bigIncrements('id');
-            $thematic->string('value');
-            $thematic->string('name');
-            $thematic->timestamps();
+        Schema::create('fields' , function (Blueprint $Field){
+            $Field->bigIncrements('id');
+            $Field->string('value');
+            $Field->string('name');
+            $Field->timestamps();
         });
     }
 
@@ -28,6 +28,6 @@ class Thematic extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('thematic');
+        Schema::dropIfExists('fields');
     }
 }

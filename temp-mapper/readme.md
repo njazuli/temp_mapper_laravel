@@ -85,7 +85,7 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 8. Install xampp to run mysql on local
 9. To display/serve , run 'php artisan serve' -> link will be given there
 10. go to browser, go to the link http://127.0.0.1:8000/csv/upload <-- index page for now
-11. for api, go to http://127.0.0.1:8000/api/data/{thematic}/{category}/{year}?month=&day=
+11. for api, go to http://127.0.0.1:8000/api/data/{Field}/{category}/{year}?month=&day=
 
 12. for admin site (only for development)
 composer require brackets/craftable

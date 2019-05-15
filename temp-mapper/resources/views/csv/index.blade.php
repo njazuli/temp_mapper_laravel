@@ -29,11 +29,11 @@
             <form id="csv-upload" method="post" enctype="multipart/form-data" action="{{ route('csv.upload.process') }}">
                 @csrf
                 <div class="form-group">
-                    <label for="thematic_id">Thematic</label>
-                    <select class="form-control" name="thematic_id" id="thematic_id">
-                        <option value="">--- Please Select Thematic ---</option>
-                        @foreach ($thematics as $index => $thematic)
-                            <option value="{{ $thematic->id }}">{{ $thematic->name }}</option>
+                    <label for="field_id">Field</label>
+                    <select class="form-control" name="field_id" id="field_id">
+                        <option value="">--- Please Select Field ---</option>
+                        @foreach ($fields as $index => $field)
+                            <option value="{{ $field->id }}">{{ $field->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -92,11 +92,11 @@
         }
     });
 
-    $('#thematic_id').change(function () {
-       var thematicID = this.value;
+    $('#field_id').change(function () {
+       var FieldID = this.value;
 
         $.ajax({
-            url: "/category/" + thematicID,
+            url: "/category/" + FieldID,
             method: 'get',
             success: function(result){
                 result.data.forEach(function (category) {

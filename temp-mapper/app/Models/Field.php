@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Thematic extends Model
+class Field extends Model
 {
-    protected $table = 'thematic';
+    protected $table = 'fields';
 
     protected $fillable = ['value', 'name'];
 
@@ -17,6 +17,6 @@ class Thematic extends Model
 
     public function categories()
     {
-        return $this->hasMany(Category::class, 'thematic_id', 'id');
+        return $this->hasMany(Category::class, 'Field_id', 'id');
     }
 }

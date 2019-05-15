@@ -14,7 +14,7 @@ class AddIndexesToDataTable extends Migration
     public function up()
     {
         Schema::table('data', function (Blueprint $table) {
-            $table->index(['category_id', 'thematic_id', 'date']);
+            $table->index(['category_id', 'Field_id', 'date']);
 
         });
     }
@@ -27,7 +27,7 @@ class AddIndexesToDataTable extends Migration
     public function down()
     {
         Schema::table('data', function (Blueprint $table) {
-            $table->dropIndex(['category_id', 'thematic_id', 'date']);
+            $table->dropIndex(['category_id', 'Field_id', 'date']);
         });
     }
 }

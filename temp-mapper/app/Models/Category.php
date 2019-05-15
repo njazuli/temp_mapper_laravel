@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['thematic_id', 'value', 'name'];
+    protected $fillable = ['Field_id', 'value', 'name'];
 
-    public function thematic()
+    public function Field()
     {
-        return $this->belongsTo(\Thematic::class);
+        return $this->belongsTo(\Field::class);
     }
 }

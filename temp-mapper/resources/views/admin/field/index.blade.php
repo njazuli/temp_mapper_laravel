@@ -1,6 +1,6 @@
 <!-- index.blade.php -->
 
-@extends('admin.layout')
+@extends('admin.field.layout')
 
 @section('content')
     <style>
@@ -18,21 +18,21 @@
             <thead>
             <tr>
                 <td>ID</td>
-                <td>Book Name</td>
-                <td>ISBN Number</td>
+                <td>Name</td>
+                <td>Value</td>
                 <td colspan="2">Action</td>
             </tr>
             </thead>
             <tbody>
-            @foreach($category as $book)
+            @foreach($field as $data)
                 <tr>
-                    <td>{{$book->Field_id}}</td>
-                    <td>{{$book->name}}</td>
-                    <td>{{$book->value}}</td>
+                    <td>{{$data->id}}</td>
+                    <td>{{$data->name}}</td>
+                    <td>{{$data->value}}</td>
                     <td>
-                        <form action="{{ route('category.destroy',$book->id) }}" method="POST">
-                            <a class="btn btn-info" href="{{ route('category.show',$book->id) }}">Show</a>
-                            <a class="btn btn-primary" href="{{ route('category.edit',$book->id) }}">Edit</a>
+                        <form action="{{ route('field.destroy',$data->id) }}" method="POST">
+                            <a class="btn btn-info" href="{{ route('field.show',$data->id) }}">Show</a>
+                            <a class="btn btn-primary" href="{{ route('field.edit',$data->id) }}">Edit</a>
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
