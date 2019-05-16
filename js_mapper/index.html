@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>	
+	<title>JS Mapper</title>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+	integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+	crossorigin=""></script>
+	<script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+	
+
+
+
+	<style type="text/css">
+		#mapid { height: 90vh; }
+
+		.leaflet-fade-anim .leaflet-tile,.leaflet-zoom-anim .leaflet-zoom-animated { will-change:auto !important; }
+	</style>
+
+</head>
+<body>
+
+	<div id="mapid"></div>
+
+	<script type="text/javascript">
+
+		function initMap(){
+			
+		}
+
+		$(document).ready(function() {
+			var layer = new L.StamenTileLayer("toner");
+			var map = new L.Map("mapid", {
+				center: new L.LatLng(2.3219, 103.95),
+				zoom: 7
+			});
+			map.addLayer(layer);
+
+			var circle_setting = {
+				color: 'red',
+				fillColor: 'red',
+				fillOpacity: 1,
+				radius: 3500
+			};
+
+			var circle_setting_1 = {
+				color: 'blue',
+				fillColor: 'blue',
+				fillOpacity: 1,
+				radius: 3500
+			};
+
+			$.ajax({
+				url: "http://localhost:8000/api/data/climate_change/rainfall/2010?month=01&day=01&limit=300",
+				type: 'GET',
+    			dataType: 'json', // added data type
+			    success: function(res) {
+
+			    	var datas = res.data.data;
+			    	var circle = [];
+			    	var marker = [];
+			    	var i = 0;
+			    	datas.forEach(function(entry,key) {
+					    
+					    if(key % 2 === 0){
+					    	// marker[key] = L.marker([entry.lat, entry.lon]).addTo(map);
+					    	circle[key] = L.circle([entry.lat, entry.lon],circle_setting).addTo(map);
+					    	circle[key].bindPopup('no'+key);
+					    }else{
+					    	// marker[key] = L.marker([entry.lat, entry.lon]).addTo(map);
+					    	circle[key] = L.circle([entry.lat, entry.lon],circle_setting_1).addTo(map);
+					    	circle[key].bindPopup('no'+key);
+					    }
+					    
+
+					    // console.log(key + ' - lat :' + entry.lat +', lon :' + entry.lon);
+					    //console.log(circle[key]);
+
+					    // circle[key].bindPopup("I am a circle." + key);
+
+					});
+
+			    }
+			});
+
+
+
+		});
+	</script>
+</body>
+
+
+</html>

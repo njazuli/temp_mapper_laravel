@@ -1,0 +1,147 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>ArcGIS JavaScript Tutorials: Display point, line, and polygon graphics</title>
+<style>
+  html, body, #viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+  }
+</style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.11/esri/css/main.css">
+<script src="https://js.arcgis.com/4.11/"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script>
+  
+  <script>
+require([
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/Graphic",
+  "esri/geometry/Point",
+  "esri/symbols/SimpleMarkerSymbol",
+  "esri/geometry/Polyline",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/geometry/Polygon",
+  "esri/symbols/SimpleFillSymbol"
+], function(Map, MapView,
+      Graphic, Point, SimpleMarkerSymbol,
+      Polyline, SimpleLineSymbol,
+      Polygon, SimpleFillSymbol
+) {
+  
+  var map = new Map({
+    basemap: "topo-vector"
+  });
+    
+  var view = new MapView({
+    container: "viewDiv",  
+    map: map,
+    center: [103.95, 2.3219],
+    zoom: 6
+  });
+  
+  // Create a symbol for drawing the point
+  var markerSymbol = new SimpleMarkerSymbol({
+    color: [226, 119, 40],
+    outline: { 
+      color: [255, 255, 255],
+      width: 1
+    }
+  });
+
+  $.ajax({
+    url: "http://localhost:8000/api/data/climate_change/rainfall/2010?month=01&limit=300",
+    type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        var datas = res.data.data;
+        var point = [];
+        var pointGraphic = [];
+
+        console.log(datas.length);
+
+        for( var i = 0; i < datas.length; i++){
+            view.graphics.add(new Graphic({
+                geometry: new Point({
+                  longitude: datas[i].lon,
+                  latitude: datas[i].lat
+                }),
+                symbol: markerSymbol
+              })
+            );
+        }
+
+        // datas.forEach(function(entry,key) {
+
+        //   // create point
+        //   var point[key] = new Point({
+        //     longitude: entry.lon,
+        //     latitude: entry.lat
+        //   });
+
+        //   var pointGraphic[key] = new Graphic({
+        //     geometry: point[key],
+        //     symbol: markerSymbol
+        //   });
+
+        //   view.graphics.add(pointGraphic[key]);
+
+        // });
+
+      }
+  });
+
+
+
+  // Create a point
+  // var point = new Point(
+  // {
+  //   longitude: 100.5500,
+  //   latitude: 4.26150
+  // });
+
+  // var pointA = new Point({
+  //   longitude: 100.5500,
+  //   latitude: 5.71310
+  // });
+
+
+  
+  
+  // demo link https://codepen.io/esri_devlabs/pen/eKPXyr?editors=1000
+  // Create attributes
+  // var attributes = {
+  //   Name: "I am a point",  // The name of the pipeline
+  //   Park: "Griffith Park",  // The owner of the pipeline
+  //   City: "Los Angeles"  // The length of the pipeline
+  // };
+  
+  // // Create popup template
+  // var popupTemplate = {
+  //   title: "{Name}",
+  //   content: "I live in <b>{Park}</b> in the city of <b>{City}</b>."
+  // };
+
+  // Create a graphic and add the geometry and symbol to it
+  // var pointGraphic = new Graphic({
+  //   geometry: point,
+  //   symbol: markerSymbol
+  // });
+
+  // var pointGraphic1 = new Graphic({
+  //   geometry: pointA,
+  //   symbol: markerSymbol
+  // });
+    
+  // view.graphics.add(pointGraphic);
+  // view.graphics.add(pointGraphic1);
+
+});</script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html> 
